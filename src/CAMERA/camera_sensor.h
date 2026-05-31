@@ -13,7 +13,7 @@
 
 #include "user_config.h"
 #include "i2c_control.h"
-
+//this is camera sensor register address
 #define CONFIG_TABLE_END_DETECT     (0xFFFF)
 #define REQUEST_SOFTWARE_WAIT       (0xAAAA) /* Please ensure if this value is not listed in command list of your camera. */
 
@@ -127,49 +127,47 @@ typedef enum
 } camera_power_t;
 
 /* Camera registers, information is in the DS */
-#define REG_CAM_I2C_SLAVE_ADDR               (0x3C)
-#define REG_CAM_RESET_ADDRESS                (0x3008)
-#define REG_CAM_RESET_VALUE                  (0x80)
+#define REG_CAM_I2C_SLAVE_ADDR               (0x3C)//camera i2c slave address
+#define REG_CAM_RESET_ADDRESS                (0x3008)//camera reset register address
+#define REG_CAM_RESET_VALUE                  (0x80)//camera reset register value to reset camera
+#define PIN_CAM_RESET                        (BSP_IO_PORT_07_PIN_09)//origin is used on ek board , but we choose the same pin for the camera reset pin on our custom board,so the pin definition is the same as the ek board
 
-#if(defined BOARD_RA8P1_EK)
-#define PIN_CAM_RESET                        (BSP_IO_PORT_07_PIN_09)
-#endif
 
 /* Camera test pattern */
-#define MATCH_RATE_MIN                       (99.0F)
-#define MATCH_RATE_STRING_LEN_MAX            (10U)
+#define MATCH_RATE_MIN                       (99.0F)//minimum match rate to pass the test
+#define MATCH_RATE_STRING_LEN_MAX            (10U)//maximum length of the string to store the match rate value
 
 /* OV5640 Power-down pin is active LOW */
 #define CAMERA_RST_PIN_SET(x) do{ \
-    R_BSP_PinAccessEnable();  \
-    R_BSP_PinWrite(PIN_CAM_RESET, x);  \
+    R_BSP_PinAccessEnable();  \//enable the pin access before writing to the camera reset pin, and then diable the pin access after writing to the camera reset pin to avoid unintended pin access
+    R_BSP_PinWrite(PIN_CAM_RESET, x);  \//write the value to the camera reset pin to contaol the camera power state
     R_BSP_PinAccessDisable(); \
 }while(0)
 
 /* MACRO for image resolution */
 typedef enum {
-    RES_1024x600 = 1,
+    RES_800x480 = 1,
     RES_VGA,
     RES_QVGA,
     RES_MAX
-}e_image_resolution;
+} e_image_resolution;//define the image resolution supported by the camera sensor
 
 typedef struct {
-    uint16_t width;
-    uint16_t height;
+    uint16_t width;//camera input image width
+    uint16_t height;//camera input image height
 } camera_config_t;
 
 /* Camera input image size */
-#define CAMERA_IMAGE_WIDTH          (1024U)
-#define CAMERA_IMAGE_HEIGHT         (600U)
+#define CAMERA_IMAGE_WIDTH          (800U)//camera input image width
+#define CAMERA_IMAGE_HEIGHT         (480U)//camera input image height
 
-#define MIPI_XCLK_HZ                (24000000)
-#define PLCK_MAX_HZ                 (96000000)
+#define MIPI_XCLK_HZ                (24000000)//external clock frequency provided to the camera sensor ,and the value is 24MHz
+#define PLCK_MAX_HZ                 (96000000)//maybe dont use
 
 /* Functions declarations */
-fsp_err_t camera_open (void);
-fsp_err_t camera_stream_on(void);
-fsp_err_t camera_stream_off(void);
-fsp_err_t camera_write_array (sensor_reg_t const * p_array);
+fsp_err_t camera_open (void);//open the camera sensor and initialize the camera registers
+fsp_err_t camera_stream_on(void);//turn on the camera streaming by writing to the camera register
+fsp_err_t camera_stream_off(void);//turn off the camera streaming by writing to the camera register
+fsp_err_t camera_write_array (sensor_reg_t const * p_array);//write the register array to the camera sensor through i2c master module
 
 #endif /* CAMERA_SENSOR_H_ */
