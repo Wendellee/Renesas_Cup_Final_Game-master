@@ -1,2 +1,6 @@
+collapse/module.driver.display_on_glcdc.1221416925=false
+collapse/module.driver.i2c_on_iic_master.1943086821=false
+collapse/module.driver.mipi_csi.1504905462=false
 collapse/module.driver.uart_on_sci_b_uart.1960246674=false
+collapse/module.driver.vin.1104676846=false
 eclipse.preferences.version=1
