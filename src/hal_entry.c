@@ -19,6 +19,7 @@ void hal_entry(void)
 {
     /* TODO: add your own code here */
 //hwj到哦此役有哦
+//klj
     // vscode pull test
     R_IOPORT_PinWrite(g_ioport.p_ctrl, USER_LED, BSP_IO_LEVEL_HIGH);
                 R_BSP_SoftwareDelay(1500,BSP_DELAY_UNITS_MILLISECONDS);
