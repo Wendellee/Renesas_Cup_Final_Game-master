@@ -8,7 +8,7 @@
 #ifndef GLCDC_DISPLAY_H_
 #define GLCDC_DISPLAY_H_
 
-#include "../src/common_utils.h" 
+#include "common_utils.h" 
 //it's about RTT_viewer and terminal interface, 
 // we can use it for debug output
 

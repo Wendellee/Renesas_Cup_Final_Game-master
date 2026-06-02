@@ -6,7 +6,7 @@
         #endif
 /* Number of interrupts allocated */
 #ifndef VECTOR_DATA_IRQ_COUNT
-#define VECTOR_DATA_IRQ_COUNT    (12)
+#define VECTOR_DATA_IRQ_COUNT    (11)
 #endif
 /* ISR prototypes */
 void iic_master_rxi_isr(void);
@@ -14,7 +14,6 @@ void iic_master_txi_isr(void);
 void iic_master_tei_isr(void);
 void iic_master_eri_isr(void);
 void vin_status_isr(void);
-void vin_error_isr(void);
 void mipi_csi_rx_isr(void);
 void mipi_csi_dl_isr(void);
 void mipi_csi_vc_isr(void);
@@ -33,22 +32,20 @@ void glcdc_underflow_2_isr(void);
 #define IIC1_ERI_IRQn          ((IRQn_Type) 3) /* IIC1 ERI (Transfer error) */
 #define VECTOR_NUMBER_VIN_IRQ ((IRQn_Type) 4) /* VIN IRQ (Interrupt Request) */
 #define VIN_IRQ_IRQn          ((IRQn_Type) 4) /* VIN IRQ (Interrupt Request) */
-#define VECTOR_NUMBER_VIN_ERR ((IRQn_Type) 5) /* VIN ERR (Interrupt Request for SYNC Error) */
-#define VIN_ERR_IRQn          ((IRQn_Type) 5) /* VIN ERR (Interrupt Request for SYNC Error) */
-#define VECTOR_NUMBER_MIPICSI_RX ((IRQn_Type) 6) /* MIPICSI RX (Receive interrupt) */
-#define MIPICSI_RX_IRQn          ((IRQn_Type) 6) /* MIPICSI RX (Receive interrupt) */
-#define VECTOR_NUMBER_MIPICSI_DL ((IRQn_Type) 7) /* MIPICSI DL (Data Lane interrupt) */
-#define MIPICSI_DL_IRQn          ((IRQn_Type) 7) /* MIPICSI DL (Data Lane interrupt) */
-#define VECTOR_NUMBER_MIPICSI_VC ((IRQn_Type) 8) /* MIPICSI VC (Virtual Channel interrupt) */
-#define MIPICSI_VC_IRQn          ((IRQn_Type) 8) /* MIPICSI VC (Virtual Channel interrupt) */
-#define VECTOR_NUMBER_GLCDC_LINE_DETECT ((IRQn_Type) 9) /* GLCDC LINE DETECT (Specified line) */
-#define GLCDC_LINE_DETECT_IRQn          ((IRQn_Type) 9) /* GLCDC LINE DETECT (Specified line) */
-#define VECTOR_NUMBER_GLCDC_UNDERFLOW_1 ((IRQn_Type) 10) /* GLCDC UNDERFLOW 1 (Graphic 1 underflow) */
-#define GLCDC_UNDERFLOW_1_IRQn          ((IRQn_Type) 10) /* GLCDC UNDERFLOW 1 (Graphic 1 underflow) */
-#define VECTOR_NUMBER_GLCDC_UNDERFLOW_2 ((IRQn_Type) 11) /* GLCDC UNDERFLOW 2 (Graphic 2 underflow) */
-#define GLCDC_UNDERFLOW_2_IRQn          ((IRQn_Type) 11) /* GLCDC UNDERFLOW 2 (Graphic 2 underflow) */
+#define VECTOR_NUMBER_MIPICSI_RX ((IRQn_Type) 5) /* MIPICSI RX (Receive interrupt) */
+#define MIPICSI_RX_IRQn          ((IRQn_Type) 5) /* MIPICSI RX (Receive interrupt) */
+#define VECTOR_NUMBER_MIPICSI_DL ((IRQn_Type) 6) /* MIPICSI DL (Data Lane interrupt) */
+#define MIPICSI_DL_IRQn          ((IRQn_Type) 6) /* MIPICSI DL (Data Lane interrupt) */
+#define VECTOR_NUMBER_MIPICSI_VC ((IRQn_Type) 7) /* MIPICSI VC (Virtual Channel interrupt) */
+#define MIPICSI_VC_IRQn          ((IRQn_Type) 7) /* MIPICSI VC (Virtual Channel interrupt) */
+#define VECTOR_NUMBER_GLCDC_LINE_DETECT ((IRQn_Type) 8) /* GLCDC LINE DETECT (Specified line) */
+#define GLCDC_LINE_DETECT_IRQn          ((IRQn_Type) 8) /* GLCDC LINE DETECT (Specified line) */
+#define VECTOR_NUMBER_GLCDC_UNDERFLOW_1 ((IRQn_Type) 9) /* GLCDC UNDERFLOW 1 (Graphic 1 underflow) */
+#define GLCDC_UNDERFLOW_1_IRQn          ((IRQn_Type) 9) /* GLCDC UNDERFLOW 1 (Graphic 1 underflow) */
+#define VECTOR_NUMBER_GLCDC_UNDERFLOW_2 ((IRQn_Type) 10) /* GLCDC UNDERFLOW 2 (Graphic 2 underflow) */
+#define GLCDC_UNDERFLOW_2_IRQn          ((IRQn_Type) 10) /* GLCDC UNDERFLOW 2 (Graphic 2 underflow) */
 /* The number of entries required for the ICU vector table. */
-#define BSP_ICU_VECTOR_NUM_ENTRIES (12)
+#define BSP_ICU_VECTOR_NUM_ENTRIES (11)
 
 #ifdef __cplusplus
         }

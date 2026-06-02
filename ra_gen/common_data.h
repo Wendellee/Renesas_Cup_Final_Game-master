@@ -42,20 +42,20 @@ extern const display_cfg_t g_display_cfg;
 void glcdc_vsync_isr(display_callback_args_t *p_args);
 #endif
 
-#define DISPLAY_IN_FORMAT_32BITS_RGB888_0
+#define DISPLAY_IN_FORMAT_16BITS_RGB565_0
 #if defined (DISPLAY_IN_FORMAT_32BITS_RGB888_0) || defined (DISPLAY_IN_FORMAT_32BITS_ARGB8888_0)
-#define DISPLAY_BITS_PER_PIXEL_INPUT0 (32)
-#elif defined (DISPLAY_IN_FORMAT_16BITS_RGB565_0) || defined (DISPLAY_IN_FORMAT_16BITS_ARGB1555_0) || defined (DISPLAY_IN_FORMAT_16BITS_ARGB4444_0)
-            #define DISPLAY_BITS_PER_PIXEL_INPUT0 (16)
-            #elif defined (DISPLAY_IN_FORMAT_CLUT8_0)
+            #define DISPLAY_BITS_PER_PIXEL_INPUT0 (32)
+            #elif defined (DISPLAY_IN_FORMAT_16BITS_RGB565_0) || defined (DISPLAY_IN_FORMAT_16BITS_ARGB1555_0) || defined (DISPLAY_IN_FORMAT_16BITS_ARGB4444_0)
+#define DISPLAY_BITS_PER_PIXEL_INPUT0 (16)
+#elif defined (DISPLAY_IN_FORMAT_CLUT8_0)
             #define DISPLAY_BITS_PER_PIXEL_INPUT0 (8)
             #elif defined (DISPLAY_IN_FORMAT_CLUT4_0)
             #define DISPLAY_BITS_PER_PIXEL_INPUT0 (4)
             #else
             #define DISPLAY_BITS_PER_PIXEL_INPUT0 (1)
             #endif
-#define DISPLAY_HSIZE_INPUT0                 (800)
-#define DISPLAY_VSIZE_INPUT0                 (480)
+#define DISPLAY_HSIZE_INPUT0                 (1024)
+#define DISPLAY_VSIZE_INPUT0                 (600)
 #define DISPLAY_BUFFER_STRIDE_BYTES_INPUT0   (((DISPLAY_HSIZE_INPUT0 * DISPLAY_BITS_PER_PIXEL_INPUT0 + 0x1FF) >> 9) << 6)
 #define DISPLAY_BUFFER_STRIDE_PIXELS_INPUT0  ((DISPLAY_BUFFER_STRIDE_BYTES_INPUT0 * 8) / DISPLAY_BITS_PER_PIXEL_INPUT0)
 #if GLCDC_CFG_LAYER_1_ENABLE
@@ -79,7 +79,7 @@ void glcdc_vsync_isr(display_callback_args_t *p_args);
 #define DISPLAY_BUFFER_STRIDE_BYTES_INPUT1   (((DISPLAY_HSIZE_INPUT1 * DISPLAY_BITS_PER_PIXEL_INPUT1 + 0x1FF) >> 9) << 6)
 #define DISPLAY_BUFFER_STRIDE_PIXELS_INPUT1  ((DISPLAY_BUFFER_STRIDE_BYTES_INPUT1 * 8) / DISPLAY_BITS_PER_PIXEL_INPUT1)
 #if GLCDC_CFG_LAYER_2_ENABLE
-            extern uint8_t fb_foreground[2][DISPLAY_BUFFER_STRIDE_BYTES_INPUT1 * DISPLAY_VSIZE_INPUT1];
+            extern uint8_t fb_foreground[1][DISPLAY_BUFFER_STRIDE_BYTES_INPUT1 * DISPLAY_VSIZE_INPUT1];
             #endif
 /* MIPI PHY on MIPI PHY Instance. */
 
@@ -110,11 +110,11 @@ void vin_callback(capture_callback_args_t *p_args);
 #endif
 
 #ifndef VIN_CFG_IMAGE_STRIDE
-#define VIN_CFG_IMAGE_STRIDE (1024)
+#define VIN_CFG_IMAGE_STRIDE (832)
 #endif
 
 #ifndef VIN_CFG_BYTES_PER_LINE
-#define VIN_CFG_BYTES_PER_LINE (2048)
+#define VIN_CFG_BYTES_PER_LINE (1664)
 #endif
 
 #define VIN_BYTES_PER_FRAME (VIN_CFG_BYTES_PER_LINE * 600)

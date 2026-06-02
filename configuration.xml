@@ -545,11 +545,11 @@
       <property id="module.driver.vin.output_ctrl.image_buffer_1_name" value="vin_image_buffer_1"/>
       <property id="module.driver.vin.output_ctrl.image_buffer_2_name" value="vin_image_buffer_2"/>
       <property id="module.driver.vin.output_ctrl.image_buffer_3_name" value="vin_image_buffer_3"/>
-      <property id="module.driver.vin.output_ctrl.image_buffer_1_section" value=".sdram"/>
-      <property id="module.driver.vin.output_ctrl.image_buffer_2_section" value=".sdram"/>
-      <property id="module.driver.vin.output_ctrl.image_buffer_3_section" value=".sdram"/>
+      <property id="module.driver.vin.output_ctrl.image_buffer_1_section" value=".sdram_noinit"/>
+      <property id="module.driver.vin.output_ctrl.image_buffer_2_section" value=".sdram_noinit"/>
+      <property id="module.driver.vin.output_ctrl.image_buffer_3_section" value=".sdram_noinit"/>
       <property id="module.driver.vin.conversion_ctrl.data_conversion_mode" value="enum.mcu.vin.conversion_ctrl.data_conversion_mode.none"/>
-      <property id="module.driver.vin.conversion_ctrl.alpha_bit_value" value="module.driver.vin.conversion_ctrl.alpha_bit_value.one"/>
+      <property id="module.driver.vin.conversion_ctrl.alpha_bit_value" value="module.driver.vin.conversion_ctrl.alpha_bit_value.zero"/>
       <property id="module.driver.vin.conversion_ctrl.output_data_byte_swap" value="enum.mcu.common_types.enabled_boolean.enabled"/>
       <property id="module.driver.vin.conversion_ctrl.extend_rgb_converted_data" value="enum.mcu.common_types.enabled_boolean.disabled"/>
       <property id="module.driver.vin.conversion_ctrl.yc_transform_disable" value="enum.mcu.common_types.true_false_boolean.false"/>
@@ -567,10 +567,10 @@
       <property id="module.driver.vin.conversion_data.ne_gy" value="enum.mcu.vin.common_types.conversion_data.interpolation_method.bilinear"/>
       <property id="module.driver.vin.conversion_data.ne_rcr" value="enum.mcu.vin.common_types.conversion_data.interpolation_method.bilinear"/>
       <property id="module.driver.vin.conversion_data.pixel_interpolation" value="module.driver.vin.conversion_data.pixel_interpolation.bilinear_or_nearest"/>
-      <property id="module.driver.vin.conversion_data.bilinear_advanced" value="enum.mcu.common_types.enabled_boolean.enabled"/>
-      <property id="module.driver.vin.conversion_data.scale_up_pixel_count" value="module.driver.vin.conversion_data.scale_up_pixel_count.minus_one"/>
-      <property id="module.driver.vin.conversion_data.cl_vsize" value="600"/>
-      <property id="module.driver.vin.conversion_data.cl_hsize" value="1024"/>
+      <property id="module.driver.vin.conversion_data.bilinear_advanced" value="enum.mcu.common_types.enabled_boolean.disabled"/>
+      <property id="module.driver.vin.conversion_data.scale_up_pixel_count" value="module.driver.vin.conversion_data.scale_up_pixel_count.full_size"/>
+      <property id="module.driver.vin.conversion_data.cl_vsize" value="480"/>
+      <property id="module.driver.vin.conversion_data.cl_hsize" value="800"/>
       <property id="module.driver.vin.conversion_data.setting_1_bits_y.lrp" value="263"/>
       <property id="module.driver.vin.conversion_data.setting_2_bits_y.lgp" value="516"/>
       <property id="module.driver.vin.conversion_data.setting_2_bits_y.lbp" value="100"/>
@@ -586,12 +586,12 @@
       <property id="module.driver.vin.conversion_data.setting_2_bits_cr.lbp" value="-73"/>
       <property id="module.driver.vin.conversion_data.setting_3_bits_cr.lap" value="2048"/>
       <property id="module.driver.vin.conversion_data.setting_3_bits_cr.lhen" value="enum.mcu.common_types.enabled_boolean.disabled"/>
-      <property id="module.driver.vin.interrupt_ctrl.status_enable_mask" value="enum.mcu.vin.interrupts.short_packet_fifo.frame_write_complete"/>
+      <property id="module.driver.vin.interrupt_ctrl.status_enable_mask" value="enum.mcu.vin.interrupts.short_packet_fifo.end_of_frame,enum.mcu.vin.interrupts.short_packet_fifo.frame_write_complete"/>
       <property id="module.driver.vin.interrupt_ctrl.scanline_compare_value" value="0"/>
       <property id="module.driver.vin.p_callback" value="vin_callback"/>
       <property id="module.driver.vin.p_context" value="NULL"/>
-      <property id="module.driver.vin.interrupt_ctrl.status.ipl" value="board.icu.common.irq.priority12"/>
-      <property id="module.driver.vin.interrupt_ctrl.error.ipl" value="board.icu.common.irq.priority12"/>
+      <property id="module.driver.vin.interrupt_ctrl.status.ipl" value="board.icu.common.irq.priority2"/>
+      <property id="module.driver.vin.interrupt_ctrl.error.ipl" value="_disabled"/>
     </module>
     <module id="module.driver.mipi_csi.1504905462">
       <property id="module.driver.mipi_csi.name" value="g_mipi_csi0"/>
@@ -672,14 +672,14 @@
       <property id="module.driver.display.underflow_1_ipl" value="board.icu.common.irq.priority12"/>
       <property id="module.driver.display.underflow_2_ipl" value="board.icu.common.irq.priority12"/>
       <property id="module.driver.display.input0.enable" value="module.driver.display.input0.enable.true"/>
-      <property id="module.driver.display.input0.hsize" value="800"/>
-      <property id="module.driver.display.input0.vsize" value="480"/>
+      <property id="module.driver.display.input0.hsize" value="1024"/>
+      <property id="module.driver.display.input0.vsize" value="600"/>
       <property id="module.driver.display.layer0.coordinate.x" value="0"/>
       <property id="module.driver.display.layer0.coordinate.y" value="0"/>
       <property id="module.driver.display.input0.buffer_name" value="fb_background"/>
       <property id="module.driver.display.input0.buffer_number" value="2"/>
       <property id="module.driver.display.input0.section" value=".sdram_noinit"/>
-      <property id="module.driver.display.input0.format" value="module.driver.display.input0.format.in_format_32bits_rgb888"/>
+      <property id="module.driver.display.input0.format" value="module.driver.display.input0.format.in_format_16bits_rgb565"/>
       <property id="module.driver.display.input0.line_descending_enable" value="module.driver.display.input0.line_descending_enable.false"/>
       <property id="module.driver.display.input0.lines_repeat_enable" value="module.driver.display.input0.lines_repeat_enable.false"/>
       <property id="module.driver.display.input0.lines_repeat_times" value="0"/>
@@ -691,23 +691,23 @@
       <property id="module.driver.display.layer1.coordinate.x" value="0"/>
       <property id="module.driver.display.layer1.coordinate.y" value="0"/>
       <property id="module.driver.display.input1.buffer_name" value="fb_foreground"/>
-      <property id="module.driver.display.input1.buffer_number" value="2"/>
+      <property id="module.driver.display.input1.buffer_number" value="1"/>
       <property id="module.driver.display.input1.section" value=".sdram_noinit"/>
       <property id="module.driver.display.input1.format" value="module.driver.display.input1.format.in_format_16bits_rgb565"/>
       <property id="module.driver.display.input1.line_descending_enable" value="module.driver.display.input1.line_descending_enable.false"/>
       <property id="module.driver.display.input1.lines_repeat_enable" value="module.driver.display.input1.lines_repeat_enable.false"/>
       <property id="module.driver.display.input1.lines_repeat_times" value="0"/>
       <property id="module.driver.display.layer1.fade_control" value="module.driver.display.layer1.fade_control.fade_control_none"/>
-      <property id="module.driver.display.layer1.fade_speed" value="0"/>
-      <property id="module.driver.display.output.htiming.total_cyc" value="559"/>
-      <property id="module.driver.display.output.htiming.display_cyc" value="480"/>
-      <property id="module.driver.display.output.htiming.back_porch" value="5"/>
-      <property id="module.driver.display.output.htiming.sync_width" value="2"/>
+      <property id="module.driver.display.layer1.fade_speed" value="255"/>
+      <property id="module.driver.display.output.htiming.total_cyc" value="1334"/>
+      <property id="module.driver.display.output.htiming.display_cyc" value="1024"/>
+      <property id="module.driver.display.output.htiming.back_porch" value="140"/>
+      <property id="module.driver.display.output.htiming.sync_width" value="1"/>
       <property id="module.driver.display.output.htiming.sync_polarity" value="module.driver.display.output.htiming.sync_polarity.signal_polarity_loactive"/>
-      <property id="module.driver.display.output.vtiming.total_cyc" value="894"/>
-      <property id="module.driver.display.output.vtiming.display_cyc" value="854"/>
+      <property id="module.driver.display.output.vtiming.total_cyc" value="635"/>
+      <property id="module.driver.display.output.vtiming.display_cyc" value="600"/>
       <property id="module.driver.display.output.vtiming.back_porch" value="20"/>
-      <property id="module.driver.display.output.vtiming.sync_width" value="3"/>
+      <property id="module.driver.display.output.vtiming.sync_width" value="1"/>
       <property id="module.driver.display.output.vtiming.sync_polarity" value="module.driver.display.output.vtiming.sync_polarity.signal_polarity_loactive"/>
       <property id="module.driver.display.output.data_enable_polarity" value="module.driver.display.output.data_enable_polarity.signal_polarity_hiactive"/>
       <property id="module.driver.display.output.sync_edge" value="module.driver.display.output.sync_edge.signal_sync_edge_falling"/>
@@ -715,16 +715,16 @@
       <property id="module.driver.display.output.color_order" value="module.driver.display.output.color_order.color_order_rgb"/>
       <property id="module.driver.display.output.endian" value="module.driver.display.output.endian.endian_little"/>
       <property id="module.driver.display.output.bg_color.byte.a" value="255"/>
-      <property id="module.driver.display.output.bg_color.byte.r" value="0"/>
-      <property id="module.driver.display.output.bg_color.byte.g" value="0"/>
-      <property id="module.driver.display.output.bg_color.byte.b" value="0"/>
+      <property id="module.driver.display.output.bg_color.byte.r" value="0xF"/>
+      <property id="module.driver.display.output.bg_color.byte.g" value="0xF"/>
+      <property id="module.driver.display.output.bg_color.byte.b" value="0xF"/>
       <property id="module.driver.display.clut.enable" value="module.driver.display.clut.enable.false"/>
       <property id="module.driver.display.clut.size" value="256"/>
       <property id="module.driver.display.tcon_hsync" value="module.driver.display.tcon_hsync.tcon_pin_1"/>
       <property id="module.driver.display.tcon_vsync" value="module.driver.display.tcon_vsync.tcon_pin_0"/>
       <property id="module.driver.display.tcon_de" value="module.driver.display.tcon_de.tcon_pin_2"/>
       <property id="module.driver.display.clksrc" value="module.driver.display.clksrc.clk_src_internal"/>
-      <property id="module.driver.display.clock_div_ratio" value="module.driver.display.clock_div_ratio.panel_clk_divisor_8"/>
+      <property id="module.driver.display.clock_div_ratio" value="module.driver.display.clock_div_ratio.panel_clk_divisor_4"/>
       <property id="module.driver.display.correction_proc_order" value="module.driver.display.correction_proc_order.correction_proc_order_brightness_contrast2gamma"/>
       <property id="module.driver.display.output.brightness.enable" value="module.driver.display.output.brightness.false"/>
       <property id="module.driver.display.output.brightness.r" value="512"/>
@@ -1449,9 +1449,13 @@
       <configSetting altId="p511.iic1.sda1" configurationId="p511"/>
       <configSetting altId="p511.gpio_speed.gpio_speed_m" configurationId="p511.gpio_drivecapacity"/>
       <configSetting altId="p511.gpio_mode.gpio_mode_peripheral" configurationId="p511.gpio_mode"/>
+      <configSetting altId="p511.gpio_otype.gpio_otype_n_ch_od" configurationId="p511.gpio_otype"/>
+      <configSetting altId="p511.gpio_pupd.gpio_pupd_ip_up" configurationId="p511.gpio_pupd"/>
       <configSetting altId="p512.iic1.scl1" configurationId="p512"/>
       <configSetting altId="p512.gpio_speed.gpio_speed_m" configurationId="p512.gpio_drivecapacity"/>
       <configSetting altId="p512.gpio_mode.gpio_mode_peripheral" configurationId="p512.gpio_mode"/>
+      <configSetting altId="p512.gpio_otype.gpio_otype_n_ch_od" configurationId="p512.gpio_otype"/>
+      <configSetting altId="p512.gpio_pupd.gpio_pupd_ip_up" configurationId="p512.gpio_pupd"/>
       <configSetting altId="p513.glcdc.lcd_tcon3" configurationId="p513"/>
       <configSetting altId="p513.gpio_mode.gpio_mode_peripheral" configurationId="p513.gpio_mode"/>
       <configSetting altId="p515.glcdc.lcd_clk" configurationId="p515"/>

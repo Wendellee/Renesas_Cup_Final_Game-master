@@ -1,5 +1,8 @@
 #include "hal_data.h"
 #include <stdio.h>
+#include "camera_sensor.h"
+#include "mipi_csi.h"
+#include "glcdc_display.h"
 
 
 #if (1 == BSP_MULTICORE_PROJECT) && BSP_TZ_SECURE_BUILD
@@ -19,32 +22,7 @@ void hal_entry(void)
 {
     /* TODO: add your own code here */
 
-    // vscode pull test
-    R_IOPORT_PinWrite(g_ioport.p_ctrl, USER_LED, BSP_IO_LEVEL_HIGH);
-                R_BSP_SoftwareDelay(1500,BSP_DELAY_UNITS_MILLISECONDS);
-        R_IOPORT_PinWrite(g_ioport.p_ctrl, USER_LED, BSP_IO_LEVEL_LOW);
-                R_BSP_SoftwareDelay(1500,BSP_DELAY_UNITS_MILLISECONDS);
-    while(1)
-    {
-        R_IOPORT_PinWrite(g_ioport.p_ctrl, USER_LED, BSP_IO_LEVEL_HIGH);
-        R_BSP_SoftwareDelay(500,BSP_DELAY_UNITS_MILLISECONDS);
-        R_IOPORT_PinWrite(g_ioport.p_ctrl, USER_LED, BSP_IO_LEVEL_LOW);
-        R_BSP_SoftwareDelay(500,BSP_DELAY_UNITS_MILLISECONDS);
-
-        //i gonna pull
-        R_IOPORT_PinWrite(g_ioport.p_ctrl, USER_LED, BSP_IO_LEVEL_HIGH);
-                R_BSP_SoftwareDelay(1500,BSP_DELAY_UNITS_MILLISECONDS);
-        R_IOPORT_PinWrite(g_ioport.p_ctrl, USER_LED, BSP_IO_LEVEL_LOW);
-                R_BSP_SoftwareDelay(1500,BSP_DELAY_UNITS_MILLISECONDS);
-    }
-
-
-
-
-
-
-
-
+    mipi_csi_ep_entry();
 
     /* Wake up 2nd core if this is first core and we are inside a multicore project. */
 #if (0 == _RA_CORE) && (1 == BSP_MULTICORE_PROJECT) && !BSP_TZ_NONSECURE_BUILD

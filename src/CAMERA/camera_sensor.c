@@ -187,14 +187,6 @@ fsp_err_t camera_open (void)
 {
     fsp_err_t err = FSP_SUCCESS;
 
-    /* Initialize GPT module */
-    err = R_GPT_Open(&g_timer_periodic_ctrl, &g_timer_periodic_cfg);
-    APP_ERR_RET( FSP_SUCCESS != err, err, " ** R_GPT_Open API FAILED ** \r\n");
-
-    /* Start GPT module to provide the 24MHz clock frequency output for the camera clock source */
-    err = R_GPT_Start(&g_timer_periodic_ctrl);
-    APP_ERR_RET( FSP_SUCCESS != err, err, " ** R_GPT_Start API FAILED ** \r\n");
-
     R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
 
     /* Change the I2C slave address to control camera sensor */

@@ -7,7 +7,7 @@
 /** Graphics Layer 1 is specified not to be used when starting */
 #endif
 #if GLCDC_CFG_LAYER_2_ENABLE
-        uint8_t fb_foreground[2][DISPLAY_BUFFER_STRIDE_BYTES_INPUT1 * DISPLAY_VSIZE_INPUT1] BSP_ALIGN_VARIABLE(64) BSP_PLACE_IN_SECTION(BSP_UNINIT_SECTION_PREFIX ".sdram_noinit");
+        uint8_t fb_foreground[1][DISPLAY_BUFFER_STRIDE_BYTES_INPUT1 * DISPLAY_VSIZE_INPUT1] BSP_ALIGN_VARIABLE(64) BSP_PLACE_IN_SECTION(BSP_UNINIT_SECTION_PREFIX ".sdram_noinit");
         #else
 /** Graphics Layer 2 is specified not to be used when starting */
 #endif
@@ -100,7 +100,7 @@ const glcdc_extended_cfg_t g_display_extend_cfg =
   .tcon_de = GLCDC_TCON_PIN_2,
   .correction_proc_order = GLCDC_CORRECTION_PROC_ORDER_BRIGHTNESS_CONTRAST2GAMMA,
   .clksrc = GLCDC_CLK_SRC_INTERNAL,
-  .clock_div_ratio = GLCDC_PANEL_CLK_DIVISOR_8,
+  .clock_div_ratio = GLCDC_PANEL_CLK_DIVISOR_4,
   .dithering_mode = GLCDC_DITHERING_MODE_TRUNCATE,
   .dithering_pattern_A = GLCDC_DITHERING_PATTERN_11,
   .dithering_pattern_B = GLCDC_DITHERING_PATTERN_11,
@@ -130,7 +130,7 @@ const display_cfg_t g_display_cfg =
 #endif
           .hsize = DISPLAY_HSIZE_INPUT0,
           .vsize = DISPLAY_VSIZE_INPUT0, .hstride = DISPLAY_BUFFER_STRIDE_PIXELS_INPUT0, .format =
-                  DISPLAY_IN_FORMAT_32BITS_RGB888,
+                  DISPLAY_IN_FORMAT_16BITS_RGB565,
           .line_descending_enable = false, .lines_repeat_enable = false, .lines_repeat_times = 0 },
 
           /** Input2(Graphics2 layer) configuration */
@@ -156,15 +156,15 @@ const display_cfg_t g_display_cfg =
           .layer[1] =
           { .coordinate =
           { .x = 0, .y = 0 },
-            .fade_control = DISPLAY_FADE_CONTROL_NONE, .fade_speed = 0 },
+            .fade_control = DISPLAY_FADE_CONTROL_NONE, .fade_speed = 255 },
 
           /** Output configuration */
           .output =
                   { .htiming =
-                  { .total_cyc = 559, .display_cyc = 480, .back_porch = 5, .sync_width = 2, .sync_polarity =
+                  { .total_cyc = 1334, .display_cyc = 1024, .back_porch = 140, .sync_width = 1, .sync_polarity =
                             DISPLAY_SIGNAL_POLARITY_LOACTIVE },
                     .vtiming =
-                    { .total_cyc = 894, .display_cyc = 854, .back_porch = 20, .sync_width = 3, .sync_polarity =
+                    { .total_cyc = 635, .display_cyc = 600, .back_porch = 20, .sync_width = 1, .sync_polarity =
                               DISPLAY_SIGNAL_POLARITY_LOACTIVE },
                     .format = DISPLAY_OUT_FORMAT_24BITS_RGB888, .endian = DISPLAY_ENDIAN_LITTLE, .color_order =
                             DISPLAY_COLOR_ORDER_RGB,
@@ -172,7 +172,7 @@ const display_cfg_t g_display_cfg =
                             DISPLAY_SIGNAL_SYNC_EDGE_FALLING,
                     .bg_color =
                     { .byte =
-                    { .a = 255, .r = 0, .g = 0, .b = 0 } },
+                    { .a = 255, .r = 0xF, .g = 0xF, .b = 0xF } },
 #if (GLCDC_CFG_COLOR_CORRECTION_ENABLE)
                 .brightness =
                 {
@@ -241,7 +241,7 @@ const display_cfg_t g_display_cfg =
                 .hsize               = DISPLAY_HSIZE_INPUT0,
                 .vsize               = DISPLAY_VSIZE_INPUT0,
                 .hstride             = DISPLAY_BUFFER_STRIDE_PIXELS_INPUT0,
-                .format              = DISPLAY_IN_FORMAT_32BITS_RGB888,
+                .format              = DISPLAY_IN_FORMAT_16BITS_RGB565,
                 .line_descending_enable = false,
                 .lines_repeat_enable = false,
                 .lines_repeat_times  = 0
@@ -283,7 +283,7 @@ const display_cfg_t g_display_cfg =
                         .y           = 0
                 },
                 .fade_control        = DISPLAY_FADE_CONTROL_NONE,
-                .fade_speed          = 0
+                .fade_speed          = 255
             }
         };
 #endif
@@ -455,9 +455,9 @@ const mipi_csi_cfg_t g_mipi_csi0_cfg =
 /* Instance structure to use this module. */
 const mipi_csi_instance_t g_mipi_csi0 =
 { .p_ctrl = &g_mipi_csi0_ctrl, .p_cfg = &g_mipi_csi0_cfg, .p_api = &g_mipi_csi };
-uint8_t vin_image_buffer_1[VIN_BYTES_PER_FRAME] BSP_ALIGN_VARIABLE(128) BSP_PLACE_IN_SECTION(BSP_UNINIT_SECTION_PREFIX ".sdram");
-uint8_t vin_image_buffer_2[VIN_BYTES_PER_FRAME] BSP_ALIGN_VARIABLE(128) BSP_PLACE_IN_SECTION(BSP_UNINIT_SECTION_PREFIX ".sdram");
-uint8_t vin_image_buffer_3[VIN_BYTES_PER_FRAME] BSP_ALIGN_VARIABLE(128) BSP_PLACE_IN_SECTION(BSP_UNINIT_SECTION_PREFIX ".sdram");
+uint8_t vin_image_buffer_1[VIN_BYTES_PER_FRAME] BSP_ALIGN_VARIABLE(128) BSP_PLACE_IN_SECTION(BSP_UNINIT_SECTION_PREFIX ".sdram_noinit");
+uint8_t vin_image_buffer_2[VIN_BYTES_PER_FRAME] BSP_ALIGN_VARIABLE(128) BSP_PLACE_IN_SECTION(BSP_UNINIT_SECTION_PREFIX ".sdram_noinit");
+uint8_t vin_image_buffer_3[VIN_BYTES_PER_FRAME] BSP_ALIGN_VARIABLE(128) BSP_PLACE_IN_SECTION(BSP_UNINIT_SECTION_PREFIX ".sdram_noinit");
 
 vin_instance_ctrl_t g_vin_ctrl;
 
@@ -472,7 +472,7 @@ const vin_extended_cfg_t g_vin_cfg_extend =
   .input_ctrl.cfg_bits.lut_enable = 0,
   .input_ctrl.cfg_bits.dithering_direction = false,
   .input_ctrl.cfg_bits.yuv444_conversion = VIN_YUV444_CONVERSION_MODE_DATA_EXTEND,
-  .input_ctrl.cfg_bits.scaling_enable = false,
+  .input_ctrl.cfg_bits.scaling_enable = true,
   .input_ctrl.cfg_bits.pixel_data_clipping = VIN_PIXEL_DATA_CLIPPING_DEFAULT,
 
   .input_ctrl.preclip.line_start = 0,
@@ -494,7 +494,7 @@ const vin_extended_cfg_t g_vin_cfg_extend =
   { vin_image_buffer_1, vin_image_buffer_2, vin_image_buffer_3 },
   .output_ctrl.use_runtime_buffer = 0,
   .conversion_ctrl.data_mode_bits.data_conversion_mode = VIN_CONVERSION_MODE_NONE,
-  .conversion_ctrl.data_mode_bits.alpha_bit_value = 1,
+  .conversion_ctrl.data_mode_bits.alpha_bit_value = 0,
   .conversion_ctrl.data_mode_bits.output_data_byte_swap = 1,
   .conversion_ctrl.data_mode_bits.extend_rgb_converted_data = 0,
   .conversion_ctrl.data_mode_bits.yc_data_transform_enable = 0,
@@ -516,17 +516,17 @@ const vin_extended_cfg_t g_vin_cfg_extend =
   .conversion_data.uds_ctrl_bits.ne_gy = 0,
   .conversion_data.uds_ctrl_bits.ne_rcr = 0,
   .conversion_data.uds_ctrl_bits.pixel_interpolation = 0,
-  .conversion_data.uds_ctrl_bits.bilinear_advanced = 1,
-  .conversion_data.uds_ctrl_bits.scale_up_pixel_count = 0,
+  .conversion_data.uds_ctrl_bits.bilinear_advanced = 0,
+  .conversion_data.uds_ctrl_bits.scale_up_pixel_count = 1,
 
-  .conversion_data.uds_scale_bits.vertical_mask = 4096,
-  .conversion_data.uds_scale_bits.horizontal_mask = 4096,
+  .conversion_data.uds_scale_bits.vertical_mask = 5120,
+  .conversion_data.uds_scale_bits.horizontal_mask = 5242,
 
-  .conversion_data.uds_bwidth_bits.bwidth_v = 64,
-  .conversion_data.uds_bwidth_bits.bwidth_h = 64,
+  .conversion_data.uds_bwidth_bits.bwidth_v = 51,
+  .conversion_data.uds_bwidth_bits.bwidth_h = 50,
 
-  .conversion_data.uds_clipping_bits.cl_vsize = 600,
-  .conversion_data.uds_clipping_bits.cl_hsize = 1024,
+  .conversion_data.uds_clipping_bits.cl_vsize = 480,
+  .conversion_data.uds_clipping_bits.cl_hsize = 800,
 
   .conversion_data.rgb_to_yuv_conversion_settings[0].setting_1_bits.lrp = 263,
   .conversion_data.rgb_to_yuv_conversion_settings[0].setting_2_bits.lgp = 516,
@@ -555,17 +555,17 @@ const vin_extended_cfg_t g_vin_cfg_extend =
   .conversion_data.rgb_to_yuv_conversion_settings[2].setting_3_bits.persistent_bit0 = 1,
   .conversion_data.rgb_to_yuv_conversion_settings[2].setting_3_bits.persistent_bit1 = 1,
 
-  .interrupt_cfg.status_enable_mask = (R_VIN_IE_FME_Msk | 0x0),
+  .interrupt_cfg.status_enable_mask = (R_VIN_IE_EFE_Msk | R_VIN_IE_FME_Msk | 0x0),
   .interrupt_cfg.scanline_compare_value = 0,
 
-  .interrupt_cfg.status.ipl = (12),
+  .interrupt_cfg.status.ipl = (2),
 #if defined(VECTOR_NUMBER_VIN_IRQ)
             .interrupt_cfg.status.irq                    = VECTOR_NUMBER_VIN_IRQ,
             #else
   .interrupt_cfg.status.irq = FSP_INVALID_VECTOR,
 #endif
 
-  .interrupt_cfg.error.ipl = (12),
+  .interrupt_cfg.error.ipl = (BSP_IRQ_DISABLED),
 #if defined(VECTOR_NUMBER_VIN_ERR)
             .interrupt_cfg.error.irq                    = VECTOR_NUMBER_VIN_ERR,
             #else

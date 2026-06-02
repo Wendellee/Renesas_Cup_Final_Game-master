@@ -21,10 +21,6 @@
 
 /* External variables */
 extern sensor_reg_t live_camera;
-extern sensor_reg_t color_bar_test_pattern;
-extern const uint32_t g_test_pattern_color_one_line_1024x600[];
-extern const uint32_t g_test_pattern_color_one_line_vga[];
-extern const uint32_t g_test_pattern_color_one_line_qvga[];
 extern const camera_config_t camera_profiles[RES_MAX];
 
 extern const vin_extended_cfg_t g_vin_cfg_extend;
@@ -71,10 +67,6 @@ void mipi_csi_ep_entry(void)
     err = i2c_control_init();
     handle_error(err, "i2c_control_init FAILED \r\n");
 
-    /* Set the MIPI_SEL_PIN to high for using MIPI CSI */
-    err = set_switch_state(MIPI_SEL_PIN, HIGH_STATE);
-    handle_error(err, "set_switch_logic FAILED \r\n");
-
     /* Setup the camera with MIPI CSI configuration */
     err = camera_open();
     handle_error(err, " ** camera_open FAILED ** \r\n");
@@ -96,7 +88,7 @@ void mipi_csi_ep_entry(void)
             err = camera_mode_selection();
             handle_error(err, " camera_mode_selection FAILED \r\n");
 
-#if (DISPLAY_OUTPUT == 1U)
+// #if (DISPLAY_OUTPUT == 1U)
             do
             {
                 g_vsync_flag = RESET_FLAG;
@@ -111,7 +103,7 @@ void mipi_csi_ep_entry(void)
                 }
             }
             while (FSP_ERR_INVALID_UPDATE_TIMING == err);
-#endif /* DISPLAY_OUTPUT */
+// #endif /* DISPLAY_OUTPUT */
         }
 
     }
@@ -120,95 +112,8 @@ void mipi_csi_ep_entry(void)
 * End of function mipi_csi_ep_entry
 ***********************************************************************************************************************/
 
-/***********************************************************************************************************************
- *  Function Name: csi_check_image
- *  Description  : This function is used to compare the image data with the color bar.
- *  Arguments    : p_buffer       Pointer to an image buffer
- *                 width          Width of image
- *                 height         Height of image
- *  Return Value : FSP_SUCCESS    Upon successful operation
- *                 Any Other Error code apart from FSP_SUCCESS
- **********************************************************************************************************************/
-static fsp_err_t csi_check_image (uint8_t * const p_buffer, uint32_t width, uint32_t height)
-{
-    fsp_err_t   err                                 = FSP_SUCCESS;
 
-    uint32_t    stride_width                        = RESET_VALUE;
-    uint32_t    shift_bytes                         = RESET_VALUE;
-    uint32_t    * p_one_line                        = NULL;
-    uint32_t    * p_refer                           = NULL;
-    uint32_t    * p_check                           = (uint32_t *)p_buffer;
-    uint32_t    count                               = RESET_VALUE;
-    float       rate                                = 0.0;
-    char        str_rate[MATCH_RATE_STRING_LEN_MAX] = {RESET_VALUE};
-
-    /* Calculate the necessary shift bytes when changing the resolution */
-    stride_width = g_vin_cfg_extend.input_ctrl.preclip.pixel_end + 1;
-    shift_bytes = (stride_width - width) / 2;
-
-    /* Get one line data pointer at 1024x600 resolution */
-    if (camera_profiles[RES_1024x600].width == width && camera_profiles[RES_1024x600].height == height)
-    {
-        p_one_line = (uint32_t *) g_test_pattern_color_one_line_1024x600;
-    }
-    /* Get one line data pointer at VGA resolution */
-    else if (camera_profiles[RES_VGA].width == width && camera_profiles[RES_VGA].height == height)
-    {
-        p_one_line = (uint32_t *) g_test_pattern_color_one_line_vga;
-    }
-    /* Get one line data pointer at QVGA resolution */
-    else if (camera_profiles[RES_QVGA].width == width && camera_profiles[RES_QVGA].height == height)
-    {
-        p_one_line = (uint32_t *) g_test_pattern_color_one_line_qvga;
-    }
-    else
-    {
-        err = FSP_ERR_INVALID_ARGUMENT;
-        APP_ERR_RET(FSP_SUCCESS != err, err, "Resolution of image is not supported\r\n");
-    }
-
-    /* Check data by column */
-    for(uint32_t y = 0; y < height; y++)
-    {
-        /* Reset p_refer pointer at start of one line data */
-        p_refer = p_one_line;
-
-        /* Check data by row */
-        for(uint32_t x = 0; x < (width / 2) ; x ++)
-        {
-            /* Compare one pixel value pointed to by p_refer and p_check */
-            if(*p_refer == *p_check)
-            {
-                count ++;
-            }
-
-            /* Next pixel (2 bytes per pixel) */
-            p_check ++;
-            p_refer ++;
-        }
-        /* Skip the padded area at the end of each line in the buffer */
-        p_check += shift_bytes;
-    }
-    /* Calculate accuracy rate */
-    rate = (float)count / (float)(width / 2 * height) * 100;
-
-    /* Check accuracy rate of image data */
-    if(MATCH_RATE_MIN < rate)
-    {
-        /* Convert float value to string */
-        sprintf(str_rate,"%.2f", rate);
-        APP_PRINT("\r\nImage data matches color bars to accuracy ratio: %s%%\r\n", str_rate);
-    }
-    else
-    {
-        err = FSP_ERR_INVALID_DATA;
-        APP_ERR_RET(FSP_SUCCESS != err, err, "Image data does not match color bars\r\n");
-    }
-    return err;
-}
-/***********************************************************************************************************************
-* End of function csi_check_image
-***********************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /***********************************************************************************************************************
  *  Function Name: vin_callback
@@ -492,16 +397,6 @@ static fsp_err_t camera_mode_selection (void)
 
             APP_PRINT("\r\nLive camera streaming started\r\n");
         }
-        else if(SELECT_TEST_PATTERN == user_input[INDEX_CHECK])
-        {
-            /* Change to camera test pattern mode */
-            err = camera_write_array(&color_bar_test_pattern);
-            APP_ERR_RET(FSP_SUCCESS != err, err, "Change to camera test mode FAILED \r\n");
-
-            /* Check image data */
-            err = csi_check_image(gp_next_buffer, g_image_width, g_image_height);
-            APP_ERR_RET(FSP_SUCCESS != err, err, "csi_check_image FAILED \r\n");
-        }
         else if (BACK_TO_MAIN_MENU == user_input[INDEX_CHECK])
         {
             /* Clear g_is_set_resolution flag to return to main menu */
@@ -550,15 +445,6 @@ void handle_error (fsp_err_t err, char * err_str)
             if(FSP_SUCCESS != R_IIC_MASTER_Close(&g_i2c_master_for_peripheral_ctrl))
             {
                 APP_ERR_PRINT("R_IIC_MASTER_Close FAILED\r\n");
-            }
-        }
-
-        /* Close opened GPT module*/
-        if(0U != g_timer_periodic_ctrl.open)
-        {
-            if(FSP_SUCCESS != R_GPT_Close(&g_timer_periodic_ctrl))
-            {
-                APP_ERR_PRINT("R_GPT_Close FAILED\r\n");
             }
         }
 

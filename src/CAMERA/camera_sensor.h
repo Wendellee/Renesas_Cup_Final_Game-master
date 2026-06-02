@@ -11,7 +11,6 @@
 #ifndef CAMERA_SENSOR_H_
 #define CAMERA_SENSOR_H_
 
-#include "user_config.h"
 #include "i2c_control.h"
 //this is camera sensor register address
 #define CONFIG_TABLE_END_DETECT     (0xFFFF)
@@ -112,6 +111,10 @@
 #define SDE_CTRL11_REG              (0x558b)
 
 #define DEFAULT_MIPI_CHANNEL        (0)
+//原来在user_config.h中定义的摄像头输入图像的宽高，现在移动到camera_sensor.h中，因为camera_sensor.h是专门用来配置摄像头相关的参数和函数的，更适合放置摄像头输入图像的宽高定义
+
+#define AWB_MANUAL_ENABLE            (0)
+#define FPS_TARGET                   (60)//target frames per second for camera streaming
 
 /* Camera Register Value */
 typedef struct camera_sensor_reg {
@@ -139,10 +142,14 @@ typedef enum
 
 /* OV5640 Power-down pin is active LOW */
 #define CAMERA_RST_PIN_SET(x) do{ \
-    R_BSP_PinAccessEnable();  \//enable the pin access before writing to the camera reset pin, and then diable the pin access after writing to the camera reset pin to avoid unintended pin access
-    R_BSP_PinWrite(PIN_CAM_RESET, x);  \//write the value to the camera reset pin to contaol the camera power state
+    R_BSP_PinAccessEnable();  \
+    R_BSP_PinWrite(PIN_CAM_RESET, x);  \
     R_BSP_PinAccessDisable(); \
 }while(0)
+
+//enable the pin access before writing to the camera reset pin, and then diable the pin access after writing to the camera reset pin to avoid unintended pin access
+//write the value to the camera reset pin to contaol the camera power state
+//disable the pin access after witing to the camera reset pin to avoid unintended pin access
 
 /* MACRO for image resolution */
 typedef enum {
@@ -150,7 +157,7 @@ typedef enum {
     RES_VGA,
     RES_QVGA,
     RES_MAX
-} e_image_resolution;//define the image resolution supported by the camera sensor
+}e_image_resolution;//define the image resolution supported by the camera sensor
 
 typedef struct {
     uint16_t width;//camera input image width

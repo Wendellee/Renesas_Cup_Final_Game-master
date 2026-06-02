@@ -1591,11 +1591,11 @@ FSP Configuration
       Output: Buffer 1: Name: vin_image_buffer_1
       Output: Buffer 2: Name: vin_image_buffer_2
       Output: Buffer 3: Name: vin_image_buffer_3
-      Output: Buffer 1: Memory Section: .sdram
-      Output: Buffer 2: Memory Section: .sdram
-      Output: Buffer 3: Memory Section: .sdram
+      Output: Buffer 1: Memory Section: .sdram_noinit
+      Output: Buffer 2: Memory Section: .sdram_noinit
+      Output: Buffer 3: Memory Section: .sdram_noinit
       Output: Conversion: Data Conversion Mode: Not Converted
-      Output: Conversion: RGB: ARGB-1555 Alpha Value: 1
+      Output: Conversion: RGB: ARGB-1555 Alpha Value: 0
       Input: YUV: Byte Swap: Enabled
       Input: RGB: 32-bit Extend: Disabled
       Input: YUV: Transform Disable and 10-bit Extend: False
@@ -1613,10 +1613,10 @@ FSP Configuration
       Output: Conversion: YUV to RGB: Scaling: Interpolation: G/Y Component: Bilinear Method
       Output: Conversion: YUV to RGB: Scaling: Interpolation: R/Cr Component: Bilinear Method
       Output: Conversion: YUV to RGB: Scaling: Interpolation: Scale Up/Down Override: Use Component Configuration
-      Output: Scaling: Interpolation: Bilinear Advanced: Enabled
-      Output: Scaling: Scale Up Pixel Count: Pixel count after scale-up: 1 + ((n - 1) × scale-up factor)
-      Output: Image: Size: Vertical: 600
-      Output: Image: Size: Horizontal: 1024
+      Output: Scaling: Interpolation: Bilinear Advanced: Disabled
+      Output: Scaling: Scale Up Pixel Count: Pixel count after scale-up: (n × scale-up factor)
+      Output: Image: Size: Vertical: 480
+      Output: Image: Size: Horizontal: 800
       Output: Conversion: RGB to YUV: R to Y Coefficient: 263
       Output: Conversion: RGB to YUV: G to Y Coefficient: 516
       Output: Conversion: RGB to YUV: B to Y Coefficient: 100
@@ -1632,12 +1632,12 @@ FSP Configuration
       Output: Conversion: RGB to YUV: B to Cr Coefficient: -73
       Output: Conversion: RGB to YUV: Cr Offset: 2048
       Output: Conversion: RGB to YUV: Cr Down Shift Round Off: Disabled
-      Interrupts: Status: Frame Memory Write Completion Notify
+      Interrupts: Status: End of Frame Detect, Frame Memory Write Completion Notify
       Interrupts: Scanline Compare Value (0: Disabled): 0
       Interrupts: Callback: vin_callback
       Interrupts: Callback Context: NULL
-      Interrupts: Priorities: Status Notify: Priority 12
-      Interrupts: Priorities: Error: Priority 12
+      Interrupts: Priorities: Status Notify: Priority 2
+      Interrupts: Priorities: Error: Disabled
       
       Instance "g_mipi_csi0 MIPI Camera Interface (r_mipi_csi)"
         General: Name: g_mipi_csi0
@@ -1718,14 +1718,14 @@ FSP Configuration
       Interrupts: Underflow 1 Interrupt Priority: Priority 12
       Interrupts: Underflow 2 Interrupt Priority: Priority 12
       Input: Graphics Layer 1: General: Enabled: Yes
-      Input: Graphics Layer 1: General: Horizontal size: 800
-      Input: Graphics Layer 1: General: Vertical size: 480
+      Input: Graphics Layer 1: General: Horizontal size: 1024
+      Input: Graphics Layer 1: General: Vertical size: 600
       Input: Graphics Layer 1: General: Horizontal position: 0
       Input: Graphics Layer 1: General: Vertical position: 0
       Input: Graphics Layer 1: Framebuffer: Framebuffer name: fb_background
       Input: Graphics Layer 1: Framebuffer: Number of framebuffers: 2
       Input: Graphics Layer 1: Framebuffer: Section for framebuffer allocation: .sdram_noinit
-      Input: Graphics Layer 1: General: Color format: RGB888 (32-bit)
+      Input: Graphics Layer 1: General: Color format: RGB565 (16-bit)
       Input: Graphics Layer 1: General: Line descending mode: Disabled
       Input: Graphics Layer 1: Line Repeat: Enable: Off
       Input: Graphics Layer 1: Line Repeat: Repeat count: 0
@@ -1737,23 +1737,23 @@ FSP Configuration
       Input: Graphics Layer 2: General: Horizontal position: 0
       Input: Graphics Layer 2: General: Vertical position: 0
       Input: Graphics Layer 2: Framebuffer: Framebuffer name: fb_foreground
-      Input: Graphics Layer 2: Framebuffer: Number of framebuffers: 2
+      Input: Graphics Layer 2: Framebuffer: Number of framebuffers: 1
       Input: Graphics Layer 2: Framebuffer: Section for framebuffer allocation: .sdram_noinit
       Input: Graphics Layer 2: General: Color format: RGB565 (16-bit)
       Input: Graphics Layer 2: General: Line descending mode: Disabled
       Input: Graphics Layer 2: Line Repeat: Enable: Off
       Input: Graphics Layer 2: Line Repeat: Repeat count: 0
       Input: Graphics Layer 2: Fading: Mode: None
-      Input: Graphics Layer 2: Fading: Speed: 0
-      Output: Timing: Horizontal total cycles: 559
-      Output: Timing: Horizontal active video cycles: 480
-      Output: Timing: Horizontal back porch cycles: 5
-      Output: Timing: Horizontal sync signal cycles: 2
+      Input: Graphics Layer 2: Fading: Speed: 255
+      Output: Timing: Horizontal total cycles: 1334
+      Output: Timing: Horizontal active video cycles: 1024
+      Output: Timing: Horizontal back porch cycles: 140
+      Output: Timing: Horizontal sync signal cycles: 1
       Output: Timing: Horizontal sync signal polarity: Low active
-      Output: Timing: Vertical total lines: 894
-      Output: Timing: Vertical active video lines: 854
+      Output: Timing: Vertical total lines: 635
+      Output: Timing: Vertical active video lines: 600
       Output: Timing: Vertical back porch lines: 20
-      Output: Timing: Vertical sync signal lines: 3
+      Output: Timing: Vertical sync signal lines: 1
       Output: Timing: Vertical sync signal polarity: Low active
       Output: Timing: Data Enable Signal Polarity: High active
       Output: Timing: Sync edge: Falling edge
@@ -1761,16 +1761,16 @@ FSP Configuration
       Output: Format: Color order: RGB
       Output: Format: Endian: Little endian
       Output: Background: Alpha: 255
-      Output: Background: Red: 0
-      Output: Background: Green: 0
-      Output: Background: Blue: 0
+      Output: Background: Red: 0xF
+      Output: Background: Green: 0xF
+      Output: Background: Blue: 0xF
       CLUT: Enabled: No
       CLUT: Size: 256
       TCON: Hsync pin select: LCD_TCON1
       TCON: Vsync pin select: LCD_TCON0
       TCON: Data enable (DE) pin select: LCD_TCON2
       TCON: Panel clock source: Internal clock (GLCDCLK)
-      TCON: Panel clock division ratio: 1/8
+      TCON: Panel clock division ratio: 1/4
       Color Correction: Process order: Brightness/contrast first
       Color Correction: Brightness: Enabled: No
       Color Correction: Brightness: Red channel: 512

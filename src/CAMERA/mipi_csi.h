@@ -25,7 +25,6 @@
 #include "bsp_pin_cfg.h"
 #include "camera_sensor.h"
 #include "glcdc_display.h"
-#include "switch_init.h"
 
 #define EP_VERSION      ("1.0")
 #define MODULE_NAME     "r_mipi_csi"
