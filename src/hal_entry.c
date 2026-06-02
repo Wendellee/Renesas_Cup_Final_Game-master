@@ -3,6 +3,7 @@
 #include "camera_sensor.h"
 #include "mipi_csi.h"
 #include "glcdc_display.h"
+#include "gpt_fan.h"
 
 
 #if (1 == BSP_MULTICORE_PROJECT) && BSP_TZ_SECURE_BUILD
@@ -21,8 +22,26 @@ bsp_ipc_semaphore_handle_t g_core_start_semaphore =
 void hal_entry(void)
 {
     /* TODO: add your own code here */
+    APP_PRINT("Hello World!\n");
+    // mipi_csi_ep_entry();
 
-    mipi_csi_ep_entry();
+//    gpt_fan_init();
+
+
+
+    init_gpt_timer(&g_timer6_ctrl, &g_timer6_cfg);
+
+    start_gpt_timer(&g_timer6_ctrl);
+
+    set_timer_duty_cycle(&g_timer6_ctrl,20);
+    while(1)
+    {
+
+        R_IOPORT_PinWrite(g_ioport.p_ctrl, USER_LED, BSP_IO_LEVEL_HIGH);
+       R_BSP_SoftwareDelay(500,BSP_DELAY_UNITS_MILLISECONDS);
+        R_IOPORT_PinWrite(g_ioport.p_ctrl, USER_LED, BSP_IO_LEVEL_LOW);
+       R_BSP_SoftwareDelay(500,BSP_DELAY_UNITS_MILLISECONDS);
+    }
 
     /* Wake up 2nd core if this is first core and we are inside a multicore project. */
 #if (0 == _RA_CORE) && (1 == BSP_MULTICORE_PROJECT) && !BSP_TZ_NONSECURE_BUILD

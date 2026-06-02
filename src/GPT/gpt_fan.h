@@ -2,21 +2,19 @@
 #define  __GPT_FAN_H__
 
 #include "hal_data.h"
+#include "common_utils.h"
 
 
-typedef enum e_wheel_direction
-{
-    e_wheel_stop                      = 0, ///<stop
-    e_wheel_forward                   = 1, ///<forward
-    e_wheel_reverse                   = 2  ///<reverse
-} wheel_direction_t ;
+/* Macros definitions */
+#define GPT_MAX_PERCENT          (100U)             /* Max duty cycle percentage */
+
+/* Function declarations */
+fsp_err_t init_gpt_timer(timer_ctrl_t * const p_timer_ctl, timer_cfg_t const * const p_timer_cfg);
+fsp_err_t start_gpt_timer(timer_ctrl_t * const p_timer_ctl);
+fsp_err_t set_timer_duty_cycle(timer_ctrl_t * const p_ctrl, uint8_t duty_cycle_percent);
+void deinit_gpt_timer(timer_ctrl_t * const p_timer_ctl);
 
 
-
-void User_gpt_init(void);
-void GPT_PWM_SetDuty(timer_ctrl_t *p_ctrl, uint8_t duty);
-uint8_t Left_Wheel_control(wheel_direction_t wheel_Direction,uint32_t target_freq,uint32_t acquire_freq,uint8_t Duty);
-uint8_t Right_Wheel_control(wheel_direction_t wheel_Direction,uint32_t target_freq,uint32_t acquire_freq,uint8_t Duty);
 
 
 #endif /* __GPT_FAN_H__ */
