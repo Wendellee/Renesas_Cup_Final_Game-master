@@ -2,6 +2,7 @@
 //GPT定时器控制风扇转动
 void gpt_fan_init(void)
 {
+    //
     R_GPT_Open(&g_timer6_ctrl,&g_timer6_cfg);
     R_GPT_OutputDisable(&g_timer6_ctrl,GPT_IO_PIN_GTIOCA);
     R_GPT_OutputDisable(&g_timer6_ctrl,GPT_IO_PIN_GTIOCB);
