@@ -1,5 +1,5 @@
 #include "gpt_fan.h"
-
+//GPT定时器控制风扇转动
 void gpt_fan_init(void)
 {
     R_GPT_Open(&g_timer6_ctrl,&g_timer6_cfg);
@@ -19,7 +19,7 @@ void gpt_fan_init(void)
 }
 
 
-
+//设置GPT占空比
 void GPT_PWM_SetDuty(timer_ctrl_t *p_ctrl, uint8_t duty)
 {
     timer_info_t info;
@@ -43,7 +43,7 @@ void GPT_PWM_SetDuty(timer_ctrl_t *p_ctrl, uint8_t duty)
     R_GPT_DutyCycleSet(p_ctrl, duty_cycle_counts, GPT_IO_PIN_GTIOCB);
 }
 
-
+//控制左右轮转动
 uint8_t Left_Wheel_control(wheel_direction_t wheel_Direction,uint32_t target_freq,uint32_t acquire_freq,uint8_t Duty)
 {
     if( e_wheel_forward == wheel_Direction )
@@ -80,7 +80,7 @@ uint8_t Left_Wheel_control(wheel_direction_t wheel_Direction,uint32_t target_fre
 
         return Duty;
 }
-
+//控制左右轮转动
 uint8_t Right_Wheel_control(wheel_direction_t wheel_Direction,uint32_t target_freq,uint32_t acquire_freq,uint8_t Duty)
 {
     if( e_wheel_forward == wheel_Direction )
