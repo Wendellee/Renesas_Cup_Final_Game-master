@@ -54,14 +54,13 @@
 #define SELECT_TEST_PATTERN      ('2')
 #define BACK_TO_MAIN_MENU        ('0')
 #define MAIN_MENU                "\r\nSelect the resolution:"\
-                                 "\r\n1. Full parallel display (1024x600)"\
+                                 "\r\n1. Full parallel display (800x480)"\
                                  "\r\n2. VGA  (640 x 480)"\
                                  "\r\n3. QVGA (320 x 240)"\
                                  "\r\nSelect:"
 
 #define CAMERA_MODE_SELECTION    "\r\nSelect Camera Mode:"\
                                  "\r\n1. Live camera"\
-								 "\r\n2. Test pattern"\
 								 "\r\n0. Back to main menu"\
 								 "\r\nSelect:\r\n"
 
